@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zoom, pan and measure a chart and watch the grid follow | Lattice Grid</title>
+<link rel="icon" href="data:,">
+<script>
+  if (new URLSearchParams(location.search).get('theme') === 'dark') document.documentElement.dataset.theme = 'dark';
+</script>
+<script>
+  // Where the library comes from. `false` loads the published release from the CDN;
+  // `true` loads a local build from vendor/ instead (not part of this repository).
+  const LOCAL = false;
+  const LIB = LOCAL ? 'vendor/' : 'https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.86.2/';
+  document.write('<link rel="stylesheet" href="' + LIB + 'lattice-grid.min.css">');
+  for (const file of ['lattice-grid.min.js', 'modules/charts.min.js']) {
+    document.write('<script src="' + LIB + file + '"><' + '/script>');
+  }
+</script>
+<style>
+  body { margin: 0; font: 13px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background: var(--lattice-background, #fff); color: var(--lattice-foreground, #14171a); }
+  header { padding: 10px 14px 6px; border-bottom: 1px solid var(--line, #dfe3e6); }
+  h1 { font-size: 1.05rem; margin: 0 0 3px; }
+  p.lede { margin: 0 0 4px; color: var(--lattice-foreground-muted, #5b6570); max-width: 120ch; font-size: 12.5px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding: 8px 14px 0; }
+  .kpis > div { border: 1px solid var(--line, #dfe3e6); border-radius: 6px; min-height: 70px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: 340px 280px; gap: 8px; padding: 8px 14px; }
+  .panel { border: 1px solid var(--line, #dfe3e6); border-radius: 6px; display: flex; flex-direction: column; min-height: 0; }
+  .panel__head { font-size: 11px; letter-spacing: .04em; text-transform: uppercase;
+                 color: var(--lattice-foreground-muted, #5b6570); padding: 5px 8px; border-bottom: 1px solid var(--line, #dfe3e6); }
+  .panel__body { flex: 1 1 auto; min-height: 0; position: relative; overflow: auto; }
+  #line-panel { grid-column: 1; grid-row: 1; }
+  #grid-panel { grid-column: 2; grid-row: 1 / 3; }
+  footer { font-size: 11px; color: var(--lattice-foreground-muted, #5b6570); padding: 0 14px 14px; }
+  footer a { color: var(--lattice-accent, #1f6feb); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Zoom, pan and measure a chart, and watch the grid follow</h1>
+  <p class="lede"><b>Try it:</b> wheel or pinch on the line to zoom, drag to pan, <kbd>0</kbd> resets. Press <kbd>M</kbd> or the ruler button on the
+    rail, then drag between two points to measure (&Delta;, % change, slope); the rail's other tools draw on the chart and the drawing stays on its
+    data when you zoom. The bar chart zooms with its hover buttons and pans by drag; the scatter zooms both axes. The grid and the four tiles
+    show exactly the rows in view.</p>
+</header>
+<div class="kpis"><div id="k-count"></div><div id="k-mean"></div><div id="k-min"></div><div id="k-max"></div></div>
+<div class="layout">
+  <div class="panel" id="line-panel"><div class="panel__head">Output index by month &mdash; zoom, pan, measure, annotate</div><div class="panel__body" id="line"></div></div>
+  <div class="panel" id="grid-panel"><div class="panel__head">The rows in view</div><div class="panel__body" id="grid"></div></div>
+  <div class="panel" id="bar-panel" style="display:grid;grid-template-columns:1fr 1fr;grid-column:1">
+    <div style="display:flex;flex-direction:column;min-height:0;min-width:0"><div class="panel__head">Mean by year &mdash; category zoom</div><div class="panel__body" id="bar"></div></div>
+    <div style="display:flex;flex-direction:column;min-height:0;min-width:0;border-left:1px solid var(--line,#dfe3e6)"><div class="panel__head">This month vs last month &mdash; x and y zoom</div><div class="panel__body" id="scatter"></div></div>
+  </div>
+</div>
+<footer>
+  Data: <a href="https://fred.stlouisfed.org/series/IPG2211N">IPG2211N</a>, Industrial Production: Utilities: Electric Power Generation, Transmission and
+  Distribution (index 2017=100), Board of Governors of the Federal Reserve System (US), retrieved from FRED, Federal Reserve Bank of St. Louis.
+  Public domain, citation requested. Lattice Grid 1.86.2 &middot; <a href="README.md">README</a>.
+</footer>
+<script>
+  // Bound to toclocoinc.github.io; does nothing anywhere else. localhost never needs a key.
+  LatticeGrid.setLicence('LG1.eyJ2IjoxLCJwIjoibGF0dGljZS1ncmlkIiwidCI6IlRPQ0xPQ08gSW5jIC0gcHVibGljIGRlbW9zIiwiZSI6IjIwMzAtMDEtMDEiLCJkIjpbInRvY2xvY29pbmMuZ2l0aHViLmlvIl19.9De42ua3aCGpiMB6EVRP7Tv-upUlDI-0T07rlSPzvCrsqg8t4YJi7SRnStEpAg48uzmcG7il1fR_TfwkUE7iCA');
+</script>
+<script src="app.js?v=20261003q"></script>
+</body>
+</html>
