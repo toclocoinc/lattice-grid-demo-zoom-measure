@@ -129,7 +129,7 @@ try {
     await reset('#bar'); got = await live();
     check(got.n === data.length, `${T}: bar 0 restores all rows after the wheel`, `${got.n}`);
     const meta = await page.eval(`({ v: LatticeGrid.getVersion(), wm: !!document.querySelector("[class*=watermark]") || /unlicen|watermark/i.test(document.body.textContent) })`);
-    check(meta.v === '1.86.3' && !meta.wm, `${T}: version ${meta.v}, no watermark`);
+    check(meta.v === '1.86.4' && !meta.wm, `${T}: version ${meta.v}, no watermark`);
 
     const real = page.bad.filter((t) => !/parser-blocking, cross site/.test(t));
     check(real.length === 0, `${T}: console clean (0 errors, 0 warnings; the loader advisory excluded)`, real.join(' | ').slice(0, 500));

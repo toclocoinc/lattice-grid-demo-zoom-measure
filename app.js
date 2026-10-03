@@ -2,7 +2,7 @@
 (async () => {
   const el = (id) => document.getElementById(id);
   const { createGrid, createChart, createStat } = LatticeGrid;
-  const csv = (await (await fetch('data/IPG2211N.csv?v=20261003t')).text()).trim().split('\n').slice(1);
+  const csv = (await (await fetch('data/IPG2211N.csv?v=20261003u')).text()).trim().split('\n').slice(1);
   let last = null;
   const rows = csv.map((line) => {
     const [date, v] = line.split(',');
