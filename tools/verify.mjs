@@ -112,7 +112,7 @@ try {
     await reset('#scatter'); got = await live();
     check(got.n === data.length, `${T}: scatter 0 restores all rows`, `${got.n}`);
 
-    // 7. Bar: the toolbar's zoom-in button (wheel on a category bar is BACKLOG-0001715, fixed in 1.86.3).
+    // 7. Bar: the toolbar's zoom-in button (the wheel is checked next).
     const [pbx, pby] = await centre('#bar');
     await page.call('Input.dispatchMouseEvent', { type: 'mouseMoved', x: pbx, y: pby }); await sleep(400);
     for (let k = 0; k < 2; k++) { const [zx, zy] = await centreOf('#bar button[aria-label="Zoom in"]'); await page.click(zx, zy); await sleep(400); }
@@ -121,6 +121,15 @@ try {
     check(!!cb && got.n === expB.length && got.n < data.length && tilesMatch(got, expB), `${T}: bar toolbar zoom narrows the grid to the visible years`, `${got.n} rows, ${cb?.value.length} years ${cb?.value[0]}..${cb?.value.at(-1)}; recount ${expB.length}`);
     await reset('#bar'); got = await live();
     check(got.n === data.length, `${T}: bar 0 restores all rows`, `${got.n}`);
+    // 7b. Bar: a real wheel on the bars.
+    const [wbx, wby] = await centre('#bar');
+    await page.wheel(wbx, wby, -300); await sleep(500); await page.wheel(wbx, wby, -300); await sleep(900); got = await live();
+    const cw = got.conds.find((k) => k.col === 'year'); const expW = cw ? data.filter((r) => cw.value.includes(r.year)) : [];
+    check(!!cw && got.n === expW.length && got.n < data.length && tilesMatch(got, expW), `${T}: bar wheel zoom narrows the grid to the visible years`, `${got.n} rows, ${cw?.value.length} years; recount ${expW.length}`);
+    await reset('#bar'); got = await live();
+    check(got.n === data.length, `${T}: bar 0 restores all rows after the wheel`, `${got.n}`);
+    const meta = await page.eval(`({ v: LatticeGrid.getVersion(), wm: !!document.querySelector("[class*=watermark]") || /unlicen|watermark/i.test(document.body.textContent) })`);
+    check(meta.v === '1.86.2' && !meta.wm, `${T}: version ${meta.v}, no watermark`);
 
     const real = page.bad.filter((t) => !/parser-blocking, cross site/.test(t));
     check(real.length === 0, `${T}: console clean (0 errors, 0 warnings; the loader advisory excluded)`, real.join(' | ').slice(0, 500));

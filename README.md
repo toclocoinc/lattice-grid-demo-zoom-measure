@@ -9,8 +9,7 @@ Grid 1.86.2 from the jsDelivr CDN; no API keys, no analytics.
 Try it: wheel or pinch on the line to zoom, drag to pan, `0` resets; `M` or the ruler button on the rail, then drag to
 measure (delta, % change, slope); the rail's other tools draw on the chart and the drawing stays on its data when you
 zoom. The chart rail has no freehand pen (that is the grid's own annotation layer, which draws in pixels); the demo uses
-the chart's data-anchored tools such as the trend line. The bar chart zooms with its hover buttons and pans by drag; wheel
-zoom on a category bar chart does not work in 1.86.2 (BACKLOG-0001715, fixed in 1.86.3), and the demo does not work around it.
+the chart's data-anchored tools such as the trend line. The wheel zooms every chart (the bar by category, the scatter on both axes); the bar also has hover zoom buttons and pans by drag.
 
 ## Run it
 
@@ -29,7 +28,7 @@ the grid holds 655 rows. Nothing is precomputed.
 
     node tools/verify.mjs [--shots dir]     # Node 22+, real headless Chrome over DevTools, no dependencies
 
-Real wheel, drag, click and key events, light and dark; every count, mean, extreme and measure readout is recomputed
+(Set `DEMO_URL=https://…` to check a hosted copy.) Real wheel, drag, click and key events, light and dark; every count, mean, extreme and measure readout is recomputed
 from the CSV and compared with the page.
 
 ## Licence

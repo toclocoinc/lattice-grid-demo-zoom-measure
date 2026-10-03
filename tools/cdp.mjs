@@ -47,7 +47,7 @@ export async function launch() {
   page.eval = async (expr) => { const r = await call('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw new Error(r.exceptionDetails.text + JSON.stringify(r.exceptionDetails.exception?.description)); return r.result.value; };
   page.open = async (theme) => {
     page.bad.length = 0;
-    await call('Page.navigate', { url: `${origin}/index.html${theme === 'dark' ? '?theme=dark' : ''}` });
+    await call('Page.navigate', { url: `${(process.env.DEMO_URL || origin).replace(/\/$/, '')}/index.html${theme === 'dark' ? '?theme=dark' : ''}` });
     for (let i = 0; i < 100; i++) { if (await page.eval('!!(window.demo && document.querySelector("#line svg") && document.querySelector("#scatter svg") && document.querySelector("#bar svg"))').catch(() => false)) break; await sleep(200); }
     await sleep(800);
   };
