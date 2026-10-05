@@ -1,10 +1,10 @@
 # Zoom, pan and measure a chart, and watch the grid follow
 
-A [Lattice Grid](https://latticegrid.dev) demo. US electricity output, month by month, in three charts that all write
+A [Lattice Grid](https://www.latticegrid.dev) demo. US electricity output, month by month, in three charts that all write
 their view into one grid: a **line** on a time axis (`zoom`, `viewportFilter`, `measure`, `annotate`), a **bar** of the
 mean by year (`zoom`, `viewportFilter`) and a **scatter** of each month against the one before (`zoom: { axes: 'xy' }`,
 `viewportFilter`). The **grid** and four **KPI tiles** (months in view, mean, lowest, highest) show exactly the rows in view.
-Grid 1.86.4 from the jsDelivr CDN; no API keys, no analytics.
+Grid 1.86.7 from the jsDelivr CDN; no API keys, no analytics.
 
 Try it: wheel or pinch on the line to zoom, drag to pan, `0` resets; `M` or the ruler button on the rail, then drag to
 measure (delta, % change, slope); the rail's other tools draw on the chart and the drawing stays on its data when you
